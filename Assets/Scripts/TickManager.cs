@@ -1,23 +1,24 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TickManager : MonoBehaviour
 {
     BoardManager boardManager = default;
 
-    [SerializeField] float standardTickRate = 0.35f;
-    [SerializeField] float fastTickRate = 0.1f;
+    [SerializeField] float standardTickInterval = 0.35f;
+    [SerializeField] float fastTickInterval = 0.1f;
 
     public bool IsTicking { get; set; } = true;
 
-    float tickRate;
+    float tickInterval;
     float lastTick;
+
+    float tickIntervalMultiplier = 1f;
 
     private void Awake()
     {
         boardManager = GetComponent<BoardManager>();
-        tickRate = standardTickRate;
+        tickInterval = standardTickInterval;
         IsTicking = false;
     }
 
@@ -34,21 +35,26 @@ public class TickManager : MonoBehaviour
             return;
         }
 
-        if (Time.time > lastTick + tickRate)
+        if (Time.time > lastTick + (tickInterval * tickIntervalMultiplier))
         {
             lastTick = Time.time;
             boardManager.Tick();
         }
     }
 
+    public void IncreaseTickRate()
+    {
+        tickIntervalMultiplier *= 0.9f;
+    }
+
     public void SetFastTick()
     {
-        tickRate = fastTickRate;
+        tickInterval = fastTickInterval;
     }
 
     public void SetStandardTick()
     {
-        tickRate = standardTickRate;
+        tickInterval = standardTickInterval;
     }
 
     public IEnumerator PauseTickForSeconds(float duration)

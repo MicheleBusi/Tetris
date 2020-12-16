@@ -19,6 +19,7 @@ public class ScoreDisplay : MonoBehaviour
         scoreText = GetComponent<Text>();
     }
 
+    bool isAnimatingScore = false;
     public IEnumerator AddScoreAnimation(int scoreIncrease)
     {
         // Instantiate Add Score prefab and slide it towards the total score
@@ -31,20 +32,28 @@ public class ScoreDisplay : MonoBehaviour
         yield return new WaitForSeconds(.7f);
         Destroy(scoreIncreaseText);
 
+        if (isAnimatingScore)
+        {
+            yield break;
+        }
+        isAnimatingScore = true;
+
         // Slowly increase displayed score
         int displayScore;
         targetScore = scoreManager.Score;
-        for (float ft = 0f; ft <= 1; ft += 0.1f)
+        for (float ft = 0f; ft <= 1; ft += 0.05f)
         {
             displayScore = Mathf.RoundToInt(
                 Mathf.Lerp(currentlyDisplayedScore, targetScore, ft));
         
             scoreText.text = displayScore.ToString();
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.05f);
         }
 
         displayScore = targetScore;
         scoreText.text = displayScore.ToString();
         currentlyDisplayedScore = displayScore;
+
+        isAnimatingScore = false;
     }
 }

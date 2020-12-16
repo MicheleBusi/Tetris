@@ -10,7 +10,7 @@ public class ScoreManager : MonoBehaviour
 
     public void OnRowDeleted(int comboIndex)
     {
-        int scoreIncrease = comboIndex * deletedRowBaseValue;
+        int scoreIncrease = (int)Mathf.Pow(comboIndex, 2) * deletedRowBaseValue;
 
         Score += scoreIncrease;
 

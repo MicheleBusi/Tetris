@@ -192,6 +192,7 @@ public class BoardManager : MonoBehaviour
     static readonly float fadeTileDuration = 0.25f;
     static readonly float slideDownDuration = 0.25f;
 
+    int rowsCompletedAtThisTickRate = 0;
     IEnumerator CheckCompletedRows()
     {
         // Pause ticking while animations play
@@ -247,6 +248,14 @@ public class BoardManager : MonoBehaviour
                 //// loop starting from this row again.
                 j--;
             }
+        }
+
+        // Increase speed every 10 completed rows
+        rowsCompletedAtThisTickRate += deletedRowsCount;
+        if (rowsCompletedAtThisTickRate >= 10)
+        {
+            tickManager.IncreaseTickRate();
+            rowsCompletedAtThisTickRate -= 10;
         }
 
         // Resume ticking
