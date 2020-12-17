@@ -25,7 +25,9 @@ public class ScoreDisplay : MonoBehaviour
         GameObject scoreIncreaseText = Instantiate(addScoreTextPrefab, canvas.transform, false);
         RectTransform rt = scoreIncreaseText.GetComponent<RectTransform>();
         rt.anchoredPosition = Vector3.zero;
-        scoreIncreaseText.GetComponent<Text>().text = "+" + scoreIncrease.ToString();
+        Text text = scoreIncreaseText.GetComponent<Text>();
+        text.text = "+" + scoreIncrease.ToString();
+        text.fontSize += scoreIncrease / 50;
         yield return new WaitForSeconds(.3f);
 
         // Slide towards score

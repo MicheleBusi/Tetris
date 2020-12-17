@@ -43,7 +43,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        nextPiece = factory.GetNextPiece();
+        GenerateNextPiece();
         SpawnPiece();
         tickManager.IsTicking = true;
     }
@@ -76,7 +76,7 @@ public class BoardManager : MonoBehaviour
     {
         activePiece = nextPiece;
 
-        tickManager.PauseTickForSeconds(0.5f);
+        tickManager.DelayNextTickBy(0.3f);
 
         Vector3 startingPos = new Vector3(
                 4f,
@@ -85,12 +85,16 @@ public class BoardManager : MonoBehaviour
 
         activePiece.transform.positionTransition(
             startingPos,
-            0.5f,
+            0.3f,
             LeanEase.Decelerate
             );
 
         activeTiles = activePiece.GetComponentsInChildren<Tile>();
+        GenerateNextPiece();
+    }
 
+    private void GenerateNextPiece()
+    {
         nextPiece = factory.GetNextPiece();
         nextPiece.transform.position = nextPieceDisplay.position;
     }

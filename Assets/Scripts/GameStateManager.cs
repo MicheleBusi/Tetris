@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
-
+using UnityEngine.Events;
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeField] GameObject pauseScreen = default;
-    [SerializeField] GameObject loseScreen = default;
+    [SerializeField] UnityEvent pauseScreenTransitionIn = default;
+    [SerializeField] UnityEvent pauseScreenTransitionOut = default;
+    [SerializeField] UnityEvent loseScreenTransitionIn = default;
 
     public bool IsPaused { get; private set; } = false;
     public bool IsLost { get; private set; } = false;
 
     private void Start()
     {
-        UnpauseGame();
+        IsPaused = false;
+        Time.timeScale = 1;
+        Cursor.visible = false;
     }
 
     public void PauseGame()
@@ -21,9 +24,10 @@ public class GameStateManager : MonoBehaviour
         }
 
         IsPaused = true;
-        pauseScreen.SetActive(true);
         Time.timeScale = 0;
         Cursor.visible = true;
+
+        pauseScreenTransitionIn.Invoke();
     }
 
     public void UnpauseGame()
@@ -34,16 +38,18 @@ public class GameStateManager : MonoBehaviour
         }
 
         IsPaused = false;
-        pauseScreen.SetActive(false);
         Time.timeScale = 1;
         Cursor.visible = false;
+
+        pauseScreenTransitionOut.Invoke();
     }
 
     public void GameLost()
     {
         IsLost = true;
         Time.timeScale = 0;
-        loseScreen.SetActive(true);
         Cursor.visible = true;
+
+        loseScreenTransitionIn.Invoke();
     }
 }

@@ -4,20 +4,20 @@ using System.Collections;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void LaunchGameAfterDelay(float delay)
+    public void LaunchGame(float delay)
     {
-        StartCoroutine(LaunchGame(delay));
-    }
-
-    public IEnumerator LaunchGame(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        StartCoroutine(LoadSceneAfterDelay("Game", delay));
     }
 
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
+        StartCoroutine(LoadSceneAfterDelay("Main Menu", 1f));
+    }
+
+    IEnumerator LoadSceneAfterDelay(string sceneName, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void QuitApplication()

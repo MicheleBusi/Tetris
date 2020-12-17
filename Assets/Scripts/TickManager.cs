@@ -25,7 +25,7 @@ public class TickManager : MonoBehaviour
     private void Start()
     {
         // Delay the first tick
-        lastTick = Time.time + 0.5f;
+        lastTick = Time.time + 1f;
     }
 
     private void Update()
@@ -57,15 +57,8 @@ public class TickManager : MonoBehaviour
         tickInterval = standardTickInterval;
     }
 
-    public IEnumerator PauseTickForSeconds(float duration)
+    public void DelayNextTickBy(float delay)
     {
-        IsTicking = false;
-        float elapsedTime = 0;
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        IsTicking = true;
+        lastTick += delay;
     }
 }

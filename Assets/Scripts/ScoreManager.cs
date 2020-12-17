@@ -16,13 +16,4 @@ public class ScoreManager : MonoBehaviour
 
         StartCoroutine(scoreDisplay.AddScoreAnimation(scoreIncrease));
     }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Score += 100;
-            StartCoroutine(scoreDisplay.AddScoreAnimation(100));
-        }
-    }
 }
