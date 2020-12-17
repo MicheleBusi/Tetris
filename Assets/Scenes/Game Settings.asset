@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a9ce5a06d60ac24e8a0564355fdb808, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  BlackAndWhiteMode: 0
   MusicOn: 1
+  skyboxMaterial: {fileID: 2100000, guid: 0dc435c63f9b5974d8ac646b9bdc09fb, type: 2}

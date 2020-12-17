@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class GameSettings : ScriptableObject
 {
-    public bool BlackAndWhiteMode;
     public bool MusicOn;
+    public Material skyboxMaterial;
 }
