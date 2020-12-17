@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        StartCoroutine(LoadSceneAfterDelay("Main Menu", 1f));
+        StartCoroutine(LoadSceneAfterDelay("Main Menu", 0.6f));
     }
 
     IEnumerator LoadSceneAfterDelay(string sceneName, float delay)
