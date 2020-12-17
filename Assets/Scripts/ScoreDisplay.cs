@@ -12,7 +12,6 @@ public class ScoreDisplay : MonoBehaviour
     Text scoreText = null;
 
     int currentlyDisplayedScore = 0;
-    int targetScore = 0;
 
     private void Awake()
     {
@@ -22,37 +21,39 @@ public class ScoreDisplay : MonoBehaviour
     bool isAnimatingScore = false;
     public IEnumerator AddScoreAnimation(int scoreIncrease)
     {
-        // Instantiate Add Score prefab and slide it towards the total score
+        // Instantiate Add Score prefab
         GameObject scoreIncreaseText = Instantiate(addScoreTextPrefab, canvas.transform, false);
         RectTransform rt = scoreIncreaseText.GetComponent<RectTransform>();
-        Text text = scoreIncreaseText.GetComponent<Text>();
-        text.text = "+" + scoreIncrease.ToString();
+        rt.anchoredPosition = Vector3.zero;
+        scoreIncreaseText.GetComponent<Text>().text = "+" + scoreIncrease.ToString();
         yield return new WaitForSeconds(.3f);
-        rt.anchoredPositionTransition(new Vector2(-690, 380), .7f, LeanEase.Accelerate);
+
+        // Slide towards score
+        rt.SetParent(this.transform, worldPositionStays: true);
+        rt.anchoredPositionTransition(new Vector2(0, 0), .7f, LeanEase.Accelerate);
         yield return new WaitForSeconds(.7f);
         Destroy(scoreIncreaseText);
 
+        // Slowly increase displayed score
         if (isAnimatingScore)
         {
+            // If another instance of this coroutine is running the score animation code, let it take care of it.
+            // But give it more time by increasing ftMax
             yield break;
         }
         isAnimatingScore = true;
 
-        // Slowly increase displayed score
-        int displayScore;
-        targetScore = scoreManager.Score;
-        for (float ft = 0f; ft <= 1; ft += 0.05f)
+        for (float ft = 0f; ft <= 1f; ft += 0.01f)
         {
-            displayScore = Mathf.RoundToInt(
-                Mathf.Lerp(currentlyDisplayedScore, targetScore, ft));
+            int displayScore = Mathf.RoundToInt(
+                Mathf.Lerp(currentlyDisplayedScore, scoreManager.Score, ft));
         
             scoreText.text = displayScore.ToString();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f);
         }
 
-        displayScore = targetScore;
-        scoreText.text = displayScore.ToString();
-        currentlyDisplayedScore = displayScore;
+        scoreText.text = scoreManager.Score.ToString();
+        currentlyDisplayedScore = scoreManager.Score;
 
         isAnimatingScore = false;
     }
