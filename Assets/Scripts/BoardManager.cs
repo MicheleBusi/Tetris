@@ -19,10 +19,9 @@ public class BoardManager : MonoBehaviour
 
     Tile[,] tiles = new Tile[BoardSize.x, BoardSize.y];
 
+    Piece nextPiece = null;
     Piece activePiece = null;
     Tile[] activeTiles = null;
-
-    Piece nextPiece = null;
 
     void Awake()
     {
@@ -31,7 +30,11 @@ public class BoardManager : MonoBehaviour
         soundManager = GetComponent<SoundManager>();
         gameStateManager = GetComponent<GameStateManager>();
 
-        // Init board to all false (no tiles).
+        ClearBoard();
+    }
+
+    private void ClearBoard()
+    {
         for (int i = 0; i < BoardSize.x; i++)
         {
             for (int j = 0; j < BoardSize.y; j++)
@@ -193,8 +196,6 @@ public class BoardManager : MonoBehaviour
         SpawnPiece();
     }
 
-    static readonly float fadeTileDuration = 0.25f;
-    static readonly float slideDownDuration = 0.25f;
 
     int rowsCompletedAtThisTickRate = 0;
     IEnumerator CheckCompletedRows()
@@ -226,12 +227,12 @@ public class BoardManager : MonoBehaviour
 
                 for (int i = 0; i < BoardSize.x; i++)
                 {
-                    tiles[i, j].FadeOut(fadeTileDuration);
+                    tiles[i, j].FadeOut();
                     tiles[i, j] = null;
                 }
 
                 float timeSinceFadeBegan = 0;
-                while (timeSinceFadeBegan < fadeTileDuration)
+                while (timeSinceFadeBegan < Tile.fadeTileDuration)
                 {
                     timeSinceFadeBegan += Time.deltaTime;
                     yield return null;
@@ -241,7 +242,7 @@ public class BoardManager : MonoBehaviour
                 SlideRowsDown(j + 1);
 
                 float timeSinceSlideBegan = 0;
-                while (timeSinceSlideBegan < slideDownDuration)
+                while (timeSinceSlideBegan < Tile.slideDownDuration)
                 {
                     timeSinceSlideBegan += Time.deltaTime;
                     yield return null;
@@ -273,7 +274,7 @@ public class BoardManager : MonoBehaviour
             for (int i = 0; i < BoardSize.x; i++)
             {
                 tiles[i, j - 1] = tiles[i, j];
-                tiles[i, j]?.SlideDown(slideDownDuration, 1);
+                tiles[i, j]?.SlideDown(1);
             }
         }
     }

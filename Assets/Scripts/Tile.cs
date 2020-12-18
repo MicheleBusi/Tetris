@@ -4,6 +4,9 @@ using Lean.Transition;
 
 public class Tile : MonoBehaviour
 {
+    public static readonly float fadeTileDuration = 0.25f;
+    public static readonly float slideDownDuration = 0.25f;
+
     public void SetGridPosition(Vector2Int pos)
     {
         transform.position = new Vector3(pos.x, pos.y, 0f);
@@ -41,13 +44,13 @@ public class Tile : MonoBehaviour
         transform.localScaleTransition(tileLocalScale, duration, LeanEase.Smooth);
     }
 
-    public void FadeOut(float duration)
+    public void FadeOut()
     {
-        transform.localScaleTransition(Vector3.zero, duration, LeanEase.Smooth);
-        Destroy(gameObject, duration + 0.2f);
+        transform.localScaleTransition(Vector3.zero, fadeTileDuration, LeanEase.Smooth);
+        Destroy(gameObject, fadeTileDuration + 0.2f);
     }
 
-    public IEnumerator DelayThenSlideDown(float delay, int slideMagnitude, float duration)
+    public IEnumerator DelayThenSlideDown(float delay, int slideMagnitude)
     {
         float elapsedTime = 0;
         while (elapsedTime < delay)
@@ -55,12 +58,12 @@ public class Tile : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        SlideDown(duration, slideMagnitude);
+        SlideDown(slideMagnitude);
     }
 
-    public void SlideDown(float duration, int slideMagnitude)
+    public void SlideDown(int slideMagnitude)
     {
         float targetPosY = transform.position.y - slideMagnitude;
-        transform.positionTransition_Y(targetPosY, duration, LeanEase.Decelerate);
+        transform.positionTransition_Y(targetPosY, slideDownDuration, LeanEase.Decelerate);
     }    
 }

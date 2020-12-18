@@ -44,7 +44,7 @@ public class TickManager : MonoBehaviour
 
     public void IncreaseTickRate()
     {
-        tickIntervalMultiplier *= 0.9f;
+        tickIntervalMultiplier *= 0.8f;
     }
 
     public void SetFastTick()

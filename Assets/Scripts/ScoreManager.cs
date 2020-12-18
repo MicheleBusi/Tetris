@@ -8,12 +8,17 @@ public class ScoreManager : MonoBehaviour
 
     public int Score { get; private set; }
 
+    public void ResetScore()
+    {
+        
+    }
+
     public void OnRowDeleted(int comboIndex)
     {
         int scoreIncrease = (int)Mathf.Pow(comboIndex, 2) * deletedRowBaseValue;
 
         Score += scoreIncrease;
 
-        StartCoroutine(scoreDisplay.AddScoreAnimation(scoreIncrease));
+        StartCoroutine(scoreDisplay.ScoreChangeAnimation(scoreIncrease));
     }
 }
