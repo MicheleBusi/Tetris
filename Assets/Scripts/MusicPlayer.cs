@@ -22,7 +22,7 @@ public class MusicPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
 
-        QueueNextSong();
+        //QueueNextSong();
 
         if (!settings.MusicOn)
         {
