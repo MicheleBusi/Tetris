@@ -3,15 +3,9 @@
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] ScoreDisplay scoreDisplay = default;
-
     [SerializeField] int deletedRowBaseValue = 100;
 
     public int Score { get; private set; }
-
-    public void ResetScore()
-    {
-        
-    }
 
     public void OnRowDeleted(int comboIndex)
     {

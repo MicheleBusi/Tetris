@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using Lean.Transition;
 
 public class ScoreDisplay : MonoBehaviour
@@ -8,6 +9,7 @@ public class ScoreDisplay : MonoBehaviour
     [SerializeField] ScoreManager scoreManager = default;
     [SerializeField] GameObject addScoreTextPrefab = default;
     [SerializeField] Canvas canvas = default;
+    [SerializeField] UnityEvent OnScoreIncreaseAnimation = default;
 
     Text scoreText = null;
 
@@ -29,13 +31,14 @@ public class ScoreDisplay : MonoBehaviour
             rt.anchoredPosition = Vector3.zero;
             Text text = scoreIncreaseText.GetComponent<Text>();
             text.text = "+" + scoreChange.ToString();
-            text.fontSize += scoreChange / 50;
+            text.fontSize += scoreChange / 25;
             yield return new WaitForSeconds(.3f);
 
             // Slide towards score
             rt.SetParent(this.transform, worldPositionStays: true);
             rt.anchoredPositionTransition(new Vector2(0, 0), .7f, LeanEase.Accelerate);
             yield return new WaitForSeconds(.7f);
+            OnScoreIncreaseAnimation.Invoke();
             Destroy(scoreIncreaseText);
         }
 

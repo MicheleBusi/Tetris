@@ -278,4 +278,17 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
+    public void FadeOutAllTiles()
+    {
+        foreach (var t in tiles)
+        {
+            t?.FadeOut();
+        }
+        foreach (var t in activeTiles)
+        {
+            t?.FadeOut();
+        }
+        nextPiece?.transform.localScaleTransition(Vector3.zero, 0.5f);
+    }
 }
