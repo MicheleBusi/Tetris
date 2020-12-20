@@ -2,7 +2,7 @@
 
 public class PieceFactory : MonoBehaviour
 {
-    [SerializeField] Tile tilePrefab = default;
+    [SerializeField] Sprite tileSprite = default;
     [SerializeField] PieceType[] pieceTypes = default;
 
     public int LastSpawnedIndex { get; private set; } = default;
@@ -21,10 +21,14 @@ public class PieceFactory : MonoBehaviour
         Piece newPiece = newGameObject.AddComponent<Piece>();
         foreach (var localPos in pieceType.tilesLocalPositions)
         {
-            Tile tile = Instantiate(tilePrefab, newGameObject.transform);
-            tile.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
+            var GO = new GameObject("Tile");
+            GO.transform.parent = newPiece.transform;
+            GO.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
+            var SR = GO.AddComponent<SpriteRenderer>();
+            SR.sprite = tileSprite;
+            SR.color = pieceType.color;
+            var tile = GO.AddComponent<Tile>();
             tile.FadeIn(0.5f);
-            tile.GetComponent<Renderer>().material = pieceType.material;
         }
 
         newPiece.type = pieceType;

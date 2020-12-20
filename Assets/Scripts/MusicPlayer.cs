@@ -5,7 +5,7 @@ using Lean.Transition;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] GameSettings settings = default;
+    [SerializeField] GeneralSettings settings = default;
     [SerializeField] List<AudioClip> playlist = default;
 
     AudioSource audioSource = null;

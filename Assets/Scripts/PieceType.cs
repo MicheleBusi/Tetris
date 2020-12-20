@@ -3,6 +3,6 @@
 [CreateAssetMenu]
 public class PieceType : ScriptableObject
 {
-    public Material material = default;
+    public Color color = default;
     public Vector2Int[] tilesLocalPositions = default;
 }

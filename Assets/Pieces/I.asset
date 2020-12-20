@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a760753ed3b1aa47b91d67cc6a10937, type: 3}
   m_Name: I
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 5850dc21e146aa143b0527e3d06ed28e, type: 2}
+  color: {r: 0.9294118, g: 0.011764707, b: 0.27058825, a: 1}
   tilesLocalPositions:
   - {x: -1, y: 0}
   - {x: 0, y: 0}
