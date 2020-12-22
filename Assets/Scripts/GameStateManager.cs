@@ -2,12 +2,22 @@
 using UnityEngine.Events;
 public class GameStateManager : MonoBehaviour
 {
+    [Header("Configuration")]
+    [SerializeField] GameStateEventChannel gameStateEventChannel = default;
+
     [SerializeField] UnityEvent pauseScreenTransitionIn = default;
     [SerializeField] UnityEvent pauseScreenTransitionOut = default;
     [SerializeField] UnityEvent loseScreenTransitionIn = default;
 
-    public bool IsPaused { get; private set; } = false;
+    public static bool IsPaused { get; private set; } = false;
     public bool IsLost { get; private set; } = false;
+
+    private void Awake()
+    {
+        gameStateEventChannel.OnGamePause += OnGamePause;
+        gameStateEventChannel.OnGameUnpause += OnGameUnpause;
+        gameStateEventChannel.OnGameLost += OnGameLost;
+    }
 
     private void Start()
     {
@@ -16,7 +26,7 @@ public class GameStateManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void PauseGame()
+    void OnGamePause()
     {
         if (IsLost)
         {
@@ -30,7 +40,7 @@ public class GameStateManager : MonoBehaviour
         pauseScreenTransitionIn.Invoke();
     }
 
-    public void UnpauseGame()
+    void OnGameUnpause()
     {
         if (IsLost)
         {
@@ -44,7 +54,7 @@ public class GameStateManager : MonoBehaviour
         pauseScreenTransitionOut.Invoke();
     }
 
-    public void GameLost()
+    public void OnGameLost()
     {
         IsLost = true;
         Time.timeScale = 0;

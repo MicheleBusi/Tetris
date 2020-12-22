@@ -417,12 +417,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197568851}
   m_CullTransparentMesh: 0
---- !u!23 &206538981 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 23448689016048322, guid: ddc14764c794fbe42b78a9a3872e95ce,
-    type: 3}
-  m_PrefabInstance: {fileID: 1636630905}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &222062935
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +531,7 @@ RectTransform:
   - {fileID: 1274315033}
   - {fileID: 926369205}
   m_Father: {fileID: 748926189}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -666,7 +660,7 @@ MonoBehaviour:
   onOn:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1960294972}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: SetSkyboxMaterial
         m_Mode: 2
@@ -682,7 +676,7 @@ MonoBehaviour:
   onOff:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1960294972}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: SetSkyboxMaterial
         m_Mode: 2
@@ -851,7 +845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.5686275, b: 0.6784314, a: 1}
+  m_Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1235,8 +1229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f415f5f7840214ca9f6e279566a521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 7be64169945d90947972489b5df7f244, type: 2}
-  playlist: []
+  musicEventChannel: {fileID: 11400000, guid: 71f4b3d87007a5f4dbf05a502a078a2f, type: 2}
 --- !u!82 &632802602
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1246,10 +1239,11 @@ AudioSource:
   m_GameObject: {fileID: 632802600}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9d247ac605d3f0848ae6e8a4107fd81d, type: 3}
+  OutputAudioMixerGroup: {fileID: 6058853507745067139, guid: ac9dff3112afce540af2381f00593cf2,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 78d8ce6f71e93814bbf4c7f139767396, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.55
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1567,9 +1561,9 @@ RectTransform:
   m_Children:
   - {fileID: 1216460086}
   - {fileID: 1002661877}
-  - {fileID: 1664043486}
   - {fileID: 239505004}
   - {fileID: 1155803980}
+  - {fileID: 1664043486}
   m_Father: {fileID: 1092008149}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1591,7 +1585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0.35686275}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1964,7 +1958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4894119, g: 0.20078434, b: 0.64, a: 1}
+  m_Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2577,7 +2571,7 @@ RectTransform:
   - {fileID: 355731951}
   - {fileID: 1695377255}
   m_Father: {fileID: 748926189}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3144,7 +3138,7 @@ MonoBehaviour:
   Data:
     Duration: 0.2
     Target: {fileID: 1894823747}
-    Color: {r: 0, g: 0.5686275, b: 0.6784314, a: 1}
+    Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
     Ease: 100
 --- !u!114 &1263123884
 MonoBehaviour:
@@ -3249,7 +3243,7 @@ MonoBehaviour:
   Data:
     Duration: 0.2
     Target: {fileID: 958807772}
-    Color: {r: 0, g: 0.5686275, b: 0.6784314, a: 1}
+    Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
     Ease: 100
 --- !u!114 &1274315037
 MonoBehaviour:
@@ -3324,7 +3318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3558,7 +3552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4894119, g: 0.20078434, b: 0.64, a: 1}
+  m_Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3730,7 +3724,7 @@ RectTransform:
   - {fileID: 1263123880}
   - {fileID: 271072738}
   m_Father: {fileID: 748926189}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3859,9 +3853,9 @@ MonoBehaviour:
   onOn:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 632802602}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: UnPause
+      - m_Target: {fileID: 11400000, guid: 71f4b3d87007a5f4dbf05a502a078a2f, type: 2}
+        m_TargetAssemblyTypeName: MusicEventChannel, Assembly-CSharp
+        m_MethodName: RaiseMusicUnpause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3874,9 +3868,9 @@ MonoBehaviour:
   onOff:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 632802602}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Pause
+      - m_Target: {fileID: 11400000, guid: 71f4b3d87007a5f4dbf05a502a078a2f, type: 2}
+        m_TargetAssemblyTypeName: MusicEventChannel, Assembly-CSharp
+        m_MethodName: RaiseMusicPause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4144,7 +4138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.5686275, b: 0.6784314, a: 1}
+  m_Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4277,9 +4271,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1960294971}
   - component: {fileID: 1960294970}
-  - component: {fileID: 1960294972}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: Resolution Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4311,20 +4304,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1960294972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960294969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23f8f486eeebba49a5c976dfbec1646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 7be64169945d90947972489b5df7f244, type: 2}
-  skyboxRenderer: {fileID: 206538981}
 --- !u!1 &1992055767
 GameObject:
   m_ObjectHideFlags: 0
@@ -4376,7 +4355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4894119, g: 0.20078434, b: 0.64, a: 1}
+  m_Color: {r: 0.92941177, g: 0.12941177, b: 0.4862745, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

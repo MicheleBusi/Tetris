@@ -5,8 +5,7 @@ using Lean.Transition;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] GeneralSettings settings = default;
-    [SerializeField] List<AudioClip> playlist = default;
+    [SerializeField] MusicEventChannel musicEventChannel = default;
 
     AudioSource audioSource = null;
 
@@ -22,47 +21,19 @@ public class MusicPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
 
-        //QueueNextSong();
-
-        if (!settings.MusicOn)
-        {
-            audioSource.Pause();
-        }
-    }
-
-    void QueueNextSong()
-    {
-        AudioClip song = playlist[Random.Range(0, playlist.Count - 1)];
-        audioSource.clip = song;
-        audioSource.Play();
-        QueueNextSong(song.length - 0.1f);
-    }
-
-    IEnumerator QueueNextSong(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-
-        AudioClip song = playlist[Random.Range(0, playlist.Count - 1)];
-        audioSource.clip = song;
-        audioSource.Play();
-        QueueNextSong(song.length - 0.1f);
+        musicEventChannel.OnMusicPause += SoftPause;
+        musicEventChannel.OnMusicUnpause += SoftUnpause;
     }
 
     public void SoftPause()
     {
         audioSource.volumeTransition(0f, 0.5f);
-        StartCoroutine(DelaySoftPause(0.5f));
+        this.Wait(0.5f, audioSource.Pause);
     }
 
     public void SoftUnpause()
     {
-        audioSource.volumeTransition(0.45f, 0.5f);
         audioSource.UnPause();
-    }
-
-    IEnumerator DelaySoftPause(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        audioSource.Pause();
+        audioSource.volumeTransition(0.45f, 0.5f);
     }
 }

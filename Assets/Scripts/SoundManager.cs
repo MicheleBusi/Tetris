@@ -1,47 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    [Header("Configuration")]
+    [SerializeField] BoardEventChannel boardEventChannel = default;
+
+    [Header("Audio sources")]
     [SerializeField] List<AudioSource> deleteRowCombos = default;
     [SerializeField] AudioSource solidifyPiece = default;
     [SerializeField] AudioSource rotatePiece = default;
     [SerializeField] AudioSource movePiece = default;
-    [SerializeField] AudioSource tick1 = default;
-    [SerializeField] AudioSource tick2 = default;
+    [SerializeField] AudioSource levelUp = default;
 
-    public void DeleteRow(int comboIndex)
+    private void Awake()
+    {
+        boardEventChannel.OnLevelUp += OnLevelUp;
+        boardEventChannel.OnMovePieceHorizontally += OnMoveHorizontally;
+        boardEventChannel.OnRotatePiece += OnRotatePiece;
+        boardEventChannel.OnRowDeleted += OnRowDeleted;
+        boardEventChannel.OnSolidfyPiece += OnSolidifyPiece;
+    }
+
+    private void OnLevelUp(int level)
+    {
+        levelUp.Play();
+    }
+
+    public void OnRowDeleted(int comboIndex)
     {
         deleteRowCombos[comboIndex - 1].Play();
     }
 
-    public void SolidifyPiece()
+    public void OnSolidifyPiece()
     {
         solidifyPiece.Play();
     }
 
-    public void RotatePiece()
+    public void OnRotatePiece()
     {
         rotatePiece.Play();
     }
 
-    public void MovePiece()
+    public void OnMoveHorizontally(int deltaX)
     {
         movePiece.Play();
-    }
-
-    int lastTick = 1;
-    public void Tick()
-    {
-        if (lastTick == 1)
-        {
-            tick2.Play();
-            lastTick = 2;
-        }
-        else
-        {
-            tick1.Play();
-            lastTick = 1;
-        }
     }
 }

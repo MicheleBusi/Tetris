@@ -23,24 +23,21 @@ public class ScoreDisplay : MonoBehaviour
     bool isAnimatingScore = false;
     public IEnumerator ScoreChangeAnimation(int scoreChange)
     {
-        if (scoreChange >= 0)
-        {
-            // Instantiate Add Score prefab
-            GameObject scoreIncreaseText = Instantiate(addScoreTextPrefab, canvas.transform, false);
-            RectTransform rt = scoreIncreaseText.GetComponent<RectTransform>();
-            rt.anchoredPosition = Vector3.zero;
-            Text text = scoreIncreaseText.GetComponent<Text>();
-            text.text = "+" + scoreChange.ToString();
-            text.fontSize += scoreChange / 25;
-            yield return new WaitForSeconds(.3f);
+        // Instantiate Add Score prefab
+        GameObject scoreIncreaseText = Instantiate(addScoreTextPrefab, canvas.transform, false);
+        RectTransform rt = scoreIncreaseText.GetComponent<RectTransform>();
+        rt.anchoredPosition = Vector3.zero;
+        Text text = scoreIncreaseText.GetComponent<Text>();
+        text.text = "+" + scoreChange.ToString();
+        text.fontSize += scoreChange / 25;
+        yield return new WaitForSeconds(.3f);
 
-            // Slide towards score
-            rt.SetParent(this.transform, worldPositionStays: true);
-            rt.anchoredPositionTransition(new Vector2(0, 0), .7f, LeanEase.Accelerate);
-            yield return new WaitForSeconds(.7f);
-            OnScoreIncreaseAnimation.Invoke();
-            Destroy(scoreIncreaseText);
-        }
+        // Slide towards score
+        rt.SetParent(this.transform, worldPositionStays: true);
+        rt.anchoredPositionTransition(new Vector2(0, 0), .7f, LeanEase.Accelerate);
+        yield return new WaitForSeconds(.7f);
+        OnScoreIncreaseAnimation.Invoke();
+        Destroy(scoreIncreaseText);
 
         // Slowly increase displayed score
         if (isAnimatingScore)

@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Lean.Transition;
 
 public class BoardManager : MonoBehaviour
 {
-    // References
+    [Header("Configuration")]
+    [SerializeField] BoardEventChannel boardEventChannel = default;
+    [SerializeField] GameStateEventChannel gameStateEventChannel = default;
+    [SerializeField] TickEventChannel tickEventChannel = default;
     [SerializeField] PieceFactory factory = default;
+
+    [Header("References")]
     [SerializeField] Transform loseLine = default;
     [SerializeField] Transform solidifiedTilesContainer = default;
     [SerializeField] Transform nextPieceDisplay = default;
-
-    ScoreManager scoreManager;
-    TickManager tickManager;
-    SoundManager soundManager;
-    GameStateManager gameStateManager;
 
     public static readonly Vector2Int BoardSize = new Vector2Int(10, 25);
 
@@ -23,14 +24,24 @@ public class BoardManager : MonoBehaviour
     Piece activePiece = null;
     Tile[] activeTiles = null;
 
+    int level = 0;
+    int rowsCompletedAtThisTickRate = 0;
+
     void Awake()
     {
-        tickManager = GetComponent<TickManager>();
-        scoreManager = GetComponent<ScoreManager>();
-        soundManager = GetComponent<SoundManager>();
-        gameStateManager = GetComponent<GameStateManager>();
+        tickEventChannel.OnTick += OnTick;
+        boardEventChannel.OnMovePieceHorizontally += OnMovePieceHorizontally;
+        boardEventChannel.OnRotatePiece += OnRotatePiece;
+    }
 
+    private void Start()
+    {
         ClearBoard();
+
+        tickEventChannel.RaiseTickUnpause();
+
+        GenerateNextPiece();
+        SpawnPiece();
     }
 
     private void ClearBoard()
@@ -44,16 +55,8 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    void OnRotatePiece()
     {
-        GenerateNextPiece();
-        SpawnPiece();
-        tickManager.IsTicking = true;
-    }
-
-    public bool RotateActivePiece()
-    {
-        soundManager.RotatePiece();
 
         activePiece.Rotate(new Vector3(0, 0, 90));
         foreach (var t in activeTiles)
@@ -61,7 +64,7 @@ public class BoardManager : MonoBehaviour
             if (t.IsOutOfBounds())
             {
                 activePiece.RotateBack();
-                return false;
+                return;
             }
 
             Vector2Int pos = t.GetGridPosition();
@@ -69,23 +72,21 @@ public class BoardManager : MonoBehaviour
             if (tileOccupied)
             {
                 activePiece.RotateBack();
-                return false;
+                return;
             }
         }
-        return true;
+        return;
     }
 
-    private void SpawnPiece()
+    void SpawnPiece()
     {
         activePiece = nextPiece;
 
-        tickManager.DelayNextTickBy(0.3f);
-
+        tickEventChannel.RaiseTickDelay(0.3f);
         Vector3 startingPos = new Vector3(
                 4f,
                 BoardSize.y - 3,
                 0f);
-
         activePiece.transform.positionTransition(
             startingPos,
             0.3f,
@@ -96,13 +97,13 @@ public class BoardManager : MonoBehaviour
         GenerateNextPiece();
     }
 
-    private void GenerateNextPiece()
+    void GenerateNextPiece()
     {
         nextPiece = factory.GetNextPiece();
         nextPiece.transform.position = nextPieceDisplay.position;
     }
 
-    public bool MovePieceHorizontally(int directionX)
+    void OnMovePieceHorizontally(int directionX)
     {
         Vector3 translation = new Vector3(directionX, 0, 0);
         activePiece.Move(translation);
@@ -114,7 +115,7 @@ public class BoardManager : MonoBehaviour
             if (t.IsOutOfBounds())
             {
                 activePiece.MoveBack();
-                return false;
+                return;
             }
 
             // Moved into a solidified piece?
@@ -122,18 +123,14 @@ public class BoardManager : MonoBehaviour
             if (tiles[pos.x, pos.y])
             {
                 activePiece.MoveBack();
-                return false;
+                return;
             }
         }
-
-        soundManager.MovePiece();
-        return true;
+        return;
     }
 
-    public bool Tick()
+    void OnTick()
     {
-        soundManager.Tick();
-
         activePiece.Move(Vector3.down);
 
         // Check every active tile
@@ -142,7 +139,7 @@ public class BoardManager : MonoBehaviour
             Vector2Int tPos = t.GetGridPosition();
             if (tPos.y > loseLine.position.y)
             {
-                return false;
+                return;
             }
 
             // Has reached bottom?
@@ -151,7 +148,7 @@ public class BoardManager : MonoBehaviour
             {
                 activePiece.MoveBack();
                 SolidifyActivePiece();
-                return false;
+                return;
             }
 
             // Is the tile already occupied?
@@ -160,16 +157,16 @@ public class BoardManager : MonoBehaviour
             {
                 activePiece.MoveBack();
                 SolidifyActivePiece();
-                return false;
+                return;
             }
         }
 
-        return true;
+        return;
     }
 
-    private void SolidifyActivePiece()
+    void SolidifyActivePiece()
     {
-        soundManager.SolidifyPiece();
+        boardEventChannel.RaiseSolidifyPiece();
 
         foreach (var t in activeTiles)
         {
@@ -181,8 +178,8 @@ public class BoardManager : MonoBehaviour
             if (tPos.y >= loseLine.position.y)
             {
                 // Lose game
-                tickManager.IsTicking = false;
-                gameStateManager.GameLost();
+                tickEventChannel.RaiseTickPause();
+                gameStateEventChannel.RaiseGameLost();
                 return;
             }
         }
@@ -196,12 +193,10 @@ public class BoardManager : MonoBehaviour
         SpawnPiece();
     }
 
-
-    int rowsCompletedAtThisTickRate = 0;
     IEnumerator CheckCompletedRows()
     {
         // Pause ticking while animations play
-        tickManager.IsTicking = false;
+        tickEventChannel.RaiseTickPause();
 
         // For every row, check if all the tiles are true
         int deletedRowsCount = 0;
@@ -222,8 +217,7 @@ public class BoardManager : MonoBehaviour
             {
                 // Delete row
                 deletedRowsCount++;
-                soundManager.DeleteRow(deletedRowsCount);
-                scoreManager.OnRowDeleted(deletedRowsCount);
+                boardEventChannel.RaiseRowDeleted(deletedRowsCount);
 
                 for (int i = 0; i < BoardSize.x; i++)
                 {
@@ -259,15 +253,15 @@ public class BoardManager : MonoBehaviour
         rowsCompletedAtThisTickRate += deletedRowsCount;
         if (rowsCompletedAtThisTickRate >= 10)
         {
-            tickManager.IncreaseTickRate();
+            boardEventChannel.RaiseLevelUp(++level);
             rowsCompletedAtThisTickRate -= 10;
         }
 
         // Resume ticking
-        tickManager.IsTicking = true;
+        tickEventChannel.RaiseTickUnpause();
     }
 
-    private void SlideRowsDown(int aboveThisRow)
+    void SlideRowsDown(int aboveThisRow)
     {
         for (int j = aboveThisRow; j < BoardSize.y; j++)
         {
@@ -279,7 +273,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void FadeOutAllTiles()
+    void FadeOutAllTiles()
     {
         foreach (var t in tiles)
         {
