@@ -2,44 +2,35 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using Lean.Transition;
 
 public class ScoreDisplay : MonoBehaviour
 {
-    [SerializeField] ScoreManager scoreManager = default;
-    [SerializeField] GameObject addScoreTextPrefab = default;
-    [SerializeField] Canvas canvas = default;
+    [SerializeField] GameEvent scoreChanged = default;
+    [SerializeField] IntVariable currentScore = default;
+
     [SerializeField] UnityEvent OnScoreIncreaseAnimation = default;
 
     Text scoreText = null;
-
     int currentlyDisplayedScore = 0;
+    bool isAnimatingScore = false;
 
     private void Awake()
     {
         scoreText = GetComponent<Text>();
+
+        scoreChanged.RegisterListener(OnScoreChanged);
     }
 
-    bool isAnimatingScore = false;
-    public IEnumerator ScoreChangeAnimation(int scoreChange)
+    private void OnScoreChanged()
     {
-        // Instantiate Add Score prefab
-        GameObject scoreIncreaseText = Instantiate(addScoreTextPrefab, canvas.transform, false);
-        RectTransform rt = scoreIncreaseText.GetComponent<RectTransform>();
-        rt.anchoredPosition = Vector3.zero;
-        Text text = scoreIncreaseText.GetComponent<Text>();
-        text.text = "+" + scoreChange.ToString();
-        text.fontSize += scoreChange / 25;
-        yield return new WaitForSeconds(.3f);
+        StartCoroutine(ScoreChangeAnimation());
+    }
 
-        // Slide towards score
-        rt.SetParent(this.transform, worldPositionStays: true);
-        rt.anchoredPositionTransition(new Vector2(0, 0), .7f, LeanEase.Accelerate);
-        yield return new WaitForSeconds(.7f);
+    // Slowly increase displayed score
+    public IEnumerator ScoreChangeAnimation()
+    {
         OnScoreIncreaseAnimation.Invoke();
-        Destroy(scoreIncreaseText);
 
-        // Slowly increase displayed score
         if (isAnimatingScore)
         {
             // If another instance of this coroutine is running the score animation code, let it take care of it.
@@ -51,14 +42,14 @@ public class ScoreDisplay : MonoBehaviour
         for (float ft = 0f; ft <= 1f; ft += 0.01f)
         {
             int displayScore = Mathf.RoundToInt(
-                Mathf.Lerp(currentlyDisplayedScore, scoreManager.Score, ft));
+                Mathf.Lerp(currentlyDisplayedScore, currentScore.Value, ft));
         
             scoreText.text = displayScore.ToString();
             yield return new WaitForSeconds(0.03f);
         }
 
-        scoreText.text = scoreManager.Score.ToString();
-        currentlyDisplayedScore = scoreManager.Score;
+        scoreText.text = currentScore.Value.ToString();
+        currentlyDisplayedScore = currentScore.Value;
 
         isAnimatingScore = false;
     }

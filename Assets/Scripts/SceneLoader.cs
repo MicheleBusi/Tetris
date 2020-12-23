@@ -1,27 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
-public class SceneLoader : MonoBehaviour
+[CreateAssetMenu(menuName = "Scene Management/Scene Loader")]
+public class SceneLoader : ScriptableObject
 {
-    public void LaunchGame(float delay)
+    public void LoadSceneSingle(string sceneName)
     {
-        StartCoroutine(LoadSceneAfterDelay("Game", delay));
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
-
-    public void ReturnToMenu()
+    public void LoadSceneAdditive(string sceneName)
     {
-        StartCoroutine(LoadSceneAfterDelay("Main Menu", 0.6f));
-    }
-
-    IEnumerator LoadSceneAfterDelay(string sceneName, float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        SceneManager.LoadScene(sceneName);
-    }
-
-    public void QuitApplication()
-    {
-        Application.Quit();
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
     }
 }

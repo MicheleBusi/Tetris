@@ -15,4 +15,16 @@ public static class WaitExtension
         action.Invoke();
         yield break;
     }
+
+    public static void Wait(this MonoBehaviour mono, float delay, UnityEvent action)
+    {
+        mono.StartCoroutine(ExecuteAction(delay, action));
+    }
+
+    private static IEnumerator ExecuteAction(float delay, UnityEvent action)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        action.Invoke();
+        yield break;
+    }
 }

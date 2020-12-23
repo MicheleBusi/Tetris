@@ -5,7 +5,8 @@ using Lean.Transition;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [SerializeField] MusicEventChannel musicEventChannel = default;
+    [SerializeField] GameEvent musicPaused = default;
+    [SerializeField] GameEvent musicUnpaused = default;
 
     AudioSource audioSource = null;
 
@@ -21,8 +22,8 @@ public class MusicPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
 
-        musicEventChannel.OnMusicPause += SoftPause;
-        musicEventChannel.OnMusicUnpause += SoftUnpause;
+        musicPaused.RegisterListener(SoftPause);
+        musicUnpaused.RegisterListener(SoftUnpause);
     }
 
     public void SoftPause()

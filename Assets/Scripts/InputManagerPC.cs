@@ -3,12 +3,14 @@
 public class InputManagerPC : MonoBehaviour
 {
     [Header("Game Events")]
-    [SerializeField] GameEvent gamePaused = default;
-    [SerializeField] GameEvent gameUnpaused = default;
+    [SerializeField] GameEvent togglePause = default;
     [SerializeField] GameEvent tickSetStandard = default;
     [SerializeField] GameEvent tickSetFast = default;
     [SerializeField] GameEvent pieceMoved = default;
     [SerializeField] GameEvent pieceRotated = default;
+
+    [Header("Game Variables")]
+    [SerializeField] BoolVariable isGamePaused = default;
 
     [Header("Key bindings")]
     [SerializeField] KeyCode rotatePiece = KeyCode.UpArrow;
@@ -26,10 +28,7 @@ public class InputManagerPC : MonoBehaviour
     {
         if (Input.GetKeyDown(pauseGame))
         {
-            if (GameStateManager.IsPaused) 
-            { gamePaused.Raise(); }
-            else 
-            { gameUnpaused.Raise(); }
+            togglePause.Raise();
         }
 
         if (Input.GetKeyUp(speedDown))
@@ -38,10 +37,11 @@ public class InputManagerPC : MonoBehaviour
         }
 
         // All actions below can not be performed if the game is paused.
-        if (GameStateManager.IsPaused)
+        if (isGamePaused.Value)
         {
             return;
         }
+
         if (Input.GetKeyDown(speedDown))
         {
             tickSetFast.Raise();

@@ -5,8 +5,6 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     [Header("Game Events")]
-    //[SerializeField] GameEvent musicPaused      = default;
-    //[SerializeField] GameEvent musicUnpaused    = default;
     [SerializeField] GameEvent levelUp          = default;
     [SerializeField] GameEvent pieceRotated     = default;
     [SerializeField] GameEvent pieceMoved       = default;
@@ -32,7 +30,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnLevelUp()
     {
-        levelUpAudio.Play();
+        //levelUpAudio.Play();
     }
 
     public void OnRowDeleted()

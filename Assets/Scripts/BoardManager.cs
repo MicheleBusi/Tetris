@@ -31,7 +31,6 @@ public class BoardManager : MonoBehaviour
     Piece activePiece = null;
     Tile[] activeTiles = null;
 
-    int level = 0;
     int rowsCompletedAtThisTickRate = 0;
 
     private void Awake()
@@ -225,7 +224,7 @@ public class BoardManager : MonoBehaviour
             {
                 // Delete row
                 deletedRowsCount++;
-                rowDeleted.sentInt = 0;
+                rowDeleted.sentInt = deletedRowsCount;
                 rowDeleted.Raise();
 
                 for (int i = 0; i < BoardSize.x; i++)

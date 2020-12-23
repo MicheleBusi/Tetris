@@ -53,7 +53,6 @@ public class TickManager : MonoBehaviour
         if (Time.time > lastTick + (tickInterval * tickIntervalMultiplier))
         {
             lastTick = Time.time;
-            tick.sentInt++;
             tick.Raise();
         }
     }
