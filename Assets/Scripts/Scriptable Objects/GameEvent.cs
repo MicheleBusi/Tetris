@@ -13,8 +13,8 @@ using UnityEngine.Events;
 [CreateAssetMenu]
 public class GameEvent : ScriptableObject
 {
-    [TextArea(4, 10)]
-    [SerializeField] string Description = "";
+    //[TextArea(4, 10)]
+    //[SerializeField] string Description = "";
     public int sentInt;
     public float sentFloat;
     public string sentString;

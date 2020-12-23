@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource solidifyPiece = default;
     [SerializeField] AudioSource rotatePiece = default;
     [SerializeField] AudioSource movePiece = default;
-    [SerializeField] AudioSource levelUpAudio = default;
+    //[SerializeField] AudioSource levelUpAudio = default;
 
     private void Awake()
     {

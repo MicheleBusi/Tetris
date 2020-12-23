@@ -1996,7 +1996,7 @@ GameObject:
   - component: {fileID: 1092008147}
   - component: {fileID: 1092008146}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: === CANVAS ===
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2577,8 +2577,8 @@ MonoBehaviour:
   actionToPerform:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 97e9a417d2336124fb63915b02e0c701, type: 2}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+      - m_Target: {fileID: 11400000, guid: 0364a8dcde3f123418baa32f0e82b3fc, type: 2}
+        m_TargetAssemblyTypeName: SceneLoaderRequests, Assembly-CSharp
         m_MethodName: LoadSceneAdditive
         m_Mode: 5
         m_Arguments:
