@@ -2,10 +2,13 @@
 
 public class InputManagerPC : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] BoardEventChannel boardEventChannel = default;
-    [SerializeField] GameStateEventChannel gameStateEventChannel = default;
-    [SerializeField] TickEventChannel tickEventChannel = default;
+    [Header("Game Events")]
+    [SerializeField] GameEvent gamePaused = default;
+    [SerializeField] GameEvent gameUnpaused = default;
+    [SerializeField] GameEvent tickSetStandard = default;
+    [SerializeField] GameEvent tickSetFast = default;
+    [SerializeField] GameEvent pieceMoved = default;
+    [SerializeField] GameEvent pieceRotated = default;
 
     [Header("Key bindings")]
     [SerializeField] KeyCode rotatePiece = KeyCode.UpArrow;
@@ -24,14 +27,14 @@ public class InputManagerPC : MonoBehaviour
         if (Input.GetKeyDown(pauseGame))
         {
             if (GameStateManager.IsPaused) 
-            { gameStateEventChannel.RaiseGameUnpause(); }
+            { gamePaused.Raise(); }
             else 
-            { gameStateEventChannel.RaiseGamePause(); }
+            { gameUnpaused.Raise(); }
         }
 
         if (Input.GetKeyUp(speedDown))
         {
-            tickEventChannel.RaiseSetStandardTick();
+            tickSetStandard.Raise();
         }
 
         // All actions below can not be performed if the game is paused.
@@ -41,7 +44,7 @@ public class InputManagerPC : MonoBehaviour
         }
         if (Input.GetKeyDown(speedDown))
         {
-            tickEventChannel.RaiseSetFastTick();
+            tickSetFast.Raise();
         }
 
         // Actions below can not be performed if the tick down is disabled.
@@ -55,7 +58,8 @@ public class InputManagerPC : MonoBehaviour
             if (Time.time - lastRightMoveTimestamp > moveTickRate)
             {
                 lastRightMoveTimestamp = Time.time;
-                boardEventChannel.RaiseMoveHorizontally(1);
+                pieceMoved.sentInt = 1;
+                pieceMoved.Raise();
             }
         }
         if (Input.GetKey(moveLeft))
@@ -63,13 +67,14 @@ public class InputManagerPC : MonoBehaviour
             if (Time.time - lastLeftMoveTimestamp > moveTickRate)
             {
                 lastLeftMoveTimestamp = Time.time;
-                boardEventChannel.RaiseMoveHorizontally(-1);
+                pieceMoved.sentInt = -1;
+                pieceMoved.Raise();
             }
         }
 
         if (Input.GetKeyDown(rotatePiece))
         {
-            boardEventChannel.RaiseRotatePiece();
+            pieceRotated.Raise();
         }
     }
 }

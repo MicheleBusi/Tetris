@@ -710,7 +710,19 @@ MonoBehaviour:
       aliases: []
   onDown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClick:
     m_PersistentCalls:
       m_Calls:
@@ -2316,10 +2328,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef9969d8f89be94ca5e01a74a7aaf6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardEventChannel: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
-  gameStateEventChannel: {fileID: 11400000, guid: 242ba7a0cc6c02547b5cb8109cda50eb,
-    type: 2}
-  tickEventChannel: {fileID: 11400000, guid: 08883923db985ee45abb11af69b5359e, type: 2}
+  tick: {fileID: 11400000, guid: 037234b3c9da983428e182489db7e8f3, type: 2}
+  tickPaused: {fileID: 11400000, guid: 30d0bf92a00999e45a310413a9e8574b, type: 2}
+  tickUnpaused: {fileID: 11400000, guid: ceaba6b298488d84d900a9b07481afeb, type: 2}
+  tickDelayed: {fileID: 11400000, guid: dd5c55a0592972248af71ec040bde920, type: 2}
+  pieceMoved: {fileID: 11400000, guid: c6d1a45f8ebffb9429c5abe979a7fe09, type: 2}
+  pieceRotated: {fileID: 11400000, guid: 5c2326069d14eb644a024868cabed6dc, type: 2}
+  pieceSolidified: {fileID: 11400000, guid: 66e06f61c61293a4fb9731e9309d1de6, type: 2}
+  rowDeleted: {fileID: 11400000, guid: 1e2b13f126e17a54d97a7b0279923f53, type: 2}
+  levelUp: {fileID: 11400000, guid: 756d6c3e1b734854e8ea0863dda4e170, type: 2}
+  gameLost: {fileID: 11400000, guid: 05e61d9198780364daf34c6dd77678eb, type: 2}
   factory: {fileID: 961879254}
   loseLine: {fileID: 1314423010}
   solidifiedTilesContainer: {fileID: 527939378}
@@ -2467,7 +2485,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3bb9e3e9e3f3946b99186aa3a7da16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardEventChannel: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
+  levelUp: {fileID: 11400000, guid: 756d6c3e1b734854e8ea0863dda4e170, type: 2}
+  pieceRotated: {fileID: 11400000, guid: 5c2326069d14eb644a024868cabed6dc, type: 2}
+  pieceMoved: {fileID: 11400000, guid: c6d1a45f8ebffb9429c5abe979a7fe09, type: 2}
+  pieceSolidified: {fileID: 11400000, guid: 66e06f61c61293a4fb9731e9309d1de6, type: 2}
+  rowDeleted: {fileID: 11400000, guid: 1e2b13f126e17a54d97a7b0279923f53, type: 2}
   deleteRowCombos:
   - {fileID: 551213436}
   - {fileID: 1585553107}
@@ -2476,7 +2498,7 @@ MonoBehaviour:
   solidifyPiece: {fileID: 1460973815}
   rotatePiece: {fileID: 1896106048}
   movePiece: {fileID: 466118665}
-  levelUp: {fileID: 0}
+  levelUpAudio: {fileID: 0}
 --- !u!4 &966254801
 Transform:
   m_ObjectHideFlags: 0
@@ -2933,18 +2955,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: FadeOutAllTiles
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1063105372}
         m_TargetAssemblyTypeName: Lean.Transition.Extras.LeanAnimation, LeanTransition
         m_MethodName: BeginTransitions
@@ -3169,9 +3179,9 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameStateManager, Assembly-CSharp
-        m_MethodName: UnpauseGame
+      - m_Target: {fileID: 11400000, guid: e830a93298a5ff0498d46ba0bded9994, type: 2}
+        m_TargetAssemblyTypeName: GameEvent, Assembly-CSharp
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3876,8 +3886,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858091246b528f643b95fe6b627823c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickEventChannel: {fileID: 11400000, guid: 08883923db985ee45abb11af69b5359e, type: 2}
-  boardEventChannel: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
+  tick: {fileID: 11400000, guid: 037234b3c9da983428e182489db7e8f3, type: 2}
+  tickPaused: {fileID: 11400000, guid: 30d0bf92a00999e45a310413a9e8574b, type: 2}
+  tickUnpaused: {fileID: 11400000, guid: ceaba6b298488d84d900a9b07481afeb, type: 2}
+  tickDelayed: {fileID: 11400000, guid: dd5c55a0592972248af71ec040bde920, type: 2}
+  tickSetFast: {fileID: 11400000, guid: 4060cdb14514d094bb8ed3dd628eb7b7, type: 2}
+  tickSetStandard: {fileID: 11400000, guid: a3f9f7920b8964149afa2350bbf4c137, type: 2}
+  levelUp: {fileID: 11400000, guid: 756d6c3e1b734854e8ea0863dda4e170, type: 2}
   standardTickInterval: 0.35
   fastTickInterval: 0.1
   tickRateIncrease: 0.2
@@ -3946,13 +3961,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 589046797}
+      - m_Target: {fileID: 1259952831}
         m_TargetAssemblyTypeName: Lean.Transition.Extras.LeanAnimation, LeanTransition
-        m_MethodName: 
+        m_MethodName: BeginTransitions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4189,8 +4204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e131efe44baa1af46adccdc36f24622d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStateEventChannel: {fileID: 11400000, guid: 242ba7a0cc6c02547b5cb8109cda50eb,
-    type: 2}
+  GamePaused: {fileID: 11400000, guid: 975c31e9e517cf944b21c58d475bf37d, type: 2}
+  GameUnpaused: {fileID: 11400000, guid: e830a93298a5ff0498d46ba0bded9994, type: 2}
+  GameLost: {fileID: 11400000, guid: 05e61d9198780364daf34c6dd77678eb, type: 2}
   pauseScreenTransitionIn:
     m_PersistentCalls:
       m_Calls:
@@ -4462,18 +4478,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1351171166}
         m_TargetAssemblyTypeName: Lean.Transition.Extras.LeanAnimation, LeanTransition
         m_MethodName: BeginTransitions
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BoardManager, Assembly-CSharp
-        m_MethodName: FadeOutAllTiles
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4757,10 +4761,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 479bdc25338d3f244bc6c4c5b758feaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardEventChannel: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
-  gameStateEventChannel: {fileID: 11400000, guid: 242ba7a0cc6c02547b5cb8109cda50eb,
-    type: 2}
-  tickEventChannel: {fileID: 11400000, guid: 08883923db985ee45abb11af69b5359e, type: 2}
+  gamePaused: {fileID: 11400000, guid: 975c31e9e517cf944b21c58d475bf37d, type: 2}
+  gameUnpaused: {fileID: 11400000, guid: e830a93298a5ff0498d46ba0bded9994, type: 2}
+  tickSetStandard: {fileID: 11400000, guid: a3f9f7920b8964149afa2350bbf4c137, type: 2}
+  tickSetFast: {fileID: 11400000, guid: 4060cdb14514d094bb8ed3dd628eb7b7, type: 2}
+  pieceMoved: {fileID: 11400000, guid: c6d1a45f8ebffb9429c5abe979a7fe09, type: 2}
+  pieceRotated: {fileID: 11400000, guid: 5c2326069d14eb644a024868cabed6dc, type: 2}
   rotatePiece: 273
   moveRight: 275
   moveLeft: 276
@@ -5477,7 +5483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ecd25a5bebde14aa8d5387d32d9da4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardEventChannel: {fileID: 11400000, guid: cf80683f737cd6443af7b558d83ac060, type: 2}
+  rowDeleted: {fileID: 11400000, guid: 1e2b13f126e17a54d97a7b0279923f53, type: 2}
   scoreDisplay: {fileID: 1259952827}
   deletedRowBaseValue: 100
 --- !u!4 &1710917723
@@ -6795,6 +6801,7 @@ GameObject:
   - component: {fileID: 4657622124059019386}
   - component: {fileID: 5624583444301092725}
   - component: {fileID: 2417368957821019778}
+  - component: {fileID: 2417368957821019779}
   m_Layer: 5
   m_Name: Level Up
   m_TagString: Untagged
@@ -6823,6 +6830,34 @@ MonoBehaviour:
     - root: {fileID: 589046798}
       speed: -1
       aliases: []
+--- !u!114 &2417368957821019779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2417368957821019777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d45ef5cf158f99141b8dc68f842063dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 756d6c3e1b734854e8ea0863dda4e170, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2417368957821019778}
+        m_TargetAssemblyTypeName: Lean.Transition.Extras.LeanAnimation, LeanTransition
+        m_MethodName: BeginTransitions
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &4657622124059019386
 CanvasRenderer:
   m_ObjectHideFlags: 0

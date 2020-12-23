@@ -5,13 +5,20 @@ using Lean.Transition;
 
 public class BoardManager : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] BoardEventChannel boardEventChannel = default;
-    [SerializeField] GameStateEventChannel gameStateEventChannel = default;
-    [SerializeField] TickEventChannel tickEventChannel = default;
-    [SerializeField] PieceFactory factory = default;
+    [Header("Game Events")]
+    [SerializeField] GameEvent tick = default;
+    [SerializeField] GameEvent tickPaused = default;
+    [SerializeField] GameEvent tickUnpaused = default;
+    [SerializeField] GameEvent tickDelayed = default;
+    [SerializeField] GameEvent pieceMoved = default;
+    [SerializeField] GameEvent pieceRotated = default;
+    [SerializeField] GameEvent pieceSolidified = default;
+    [SerializeField] GameEvent rowDeleted = default;
+    [SerializeField] GameEvent levelUp = default;
+    [SerializeField] GameEvent gameLost = default;
 
     [Header("References")]
+    [SerializeField] PieceFactory factory = default;
     [SerializeField] Transform loseLine = default;
     [SerializeField] Transform solidifiedTilesContainer = default;
     [SerializeField] Transform nextPieceDisplay = default;
@@ -27,24 +34,24 @@ public class BoardManager : MonoBehaviour
     int level = 0;
     int rowsCompletedAtThisTickRate = 0;
 
-    void Awake()
+    private void Awake()
     {
-        tickEventChannel.OnTick += OnTick;
-        boardEventChannel.OnMovePieceHorizontally += OnMovePieceHorizontally;
-        boardEventChannel.OnRotatePiece += OnRotatePiece;
+        tick.RegisterListener(OnTick);
+        pieceMoved.RegisterListener(OnPieceMove);
+        pieceRotated.RegisterListener(OnPieceRotate);
     }
 
     private void Start()
     {
         ClearBoard();
 
-        tickEventChannel.RaiseTickUnpause();
+        tickUnpaused.Raise();
 
         GenerateNextPiece();
         SpawnPiece();
     }
 
-    private void ClearBoard()
+    void ClearBoard()
     {
         for (int i = 0; i < BoardSize.x; i++)
         {
@@ -55,7 +62,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void OnRotatePiece()
+    void OnPieceRotate()
     {
 
         activePiece.Rotate(new Vector3(0, 0, 90));
@@ -82,7 +89,8 @@ public class BoardManager : MonoBehaviour
     {
         activePiece = nextPiece;
 
-        tickEventChannel.RaiseTickDelay(0.3f);
+        tickDelayed.sentFloat = 0.3f;
+        tickDelayed.Raise();
         Vector3 startingPos = new Vector3(
                 4f,
                 BoardSize.y - 3,
@@ -103,9 +111,9 @@ public class BoardManager : MonoBehaviour
         nextPiece.transform.position = nextPieceDisplay.position;
     }
 
-    void OnMovePieceHorizontally(int directionX)
+    void OnPieceMove()
     {
-        Vector3 translation = new Vector3(directionX, 0, 0);
+        Vector3 translation = new Vector3(pieceMoved.sentInt, 0, 0);
         activePiece.Move(translation);
 
         foreach (var t in activeTiles)
@@ -166,7 +174,7 @@ public class BoardManager : MonoBehaviour
 
     void SolidifyActivePiece()
     {
-        boardEventChannel.RaiseSolidifyPiece();
+        pieceSolidified.Raise();
 
         foreach (var t in activeTiles)
         {
@@ -178,8 +186,8 @@ public class BoardManager : MonoBehaviour
             if (tPos.y >= loseLine.position.y)
             {
                 // Lose game
-                tickEventChannel.RaiseTickPause();
-                gameStateEventChannel.RaiseGameLost();
+                tickPaused.Raise();
+                gameLost.Raise();
                 return;
             }
         }
@@ -196,7 +204,7 @@ public class BoardManager : MonoBehaviour
     IEnumerator CheckCompletedRows()
     {
         // Pause ticking while animations play
-        tickEventChannel.RaiseTickPause();
+        tickPaused.Raise();
 
         // For every row, check if all the tiles are true
         int deletedRowsCount = 0;
@@ -217,7 +225,8 @@ public class BoardManager : MonoBehaviour
             {
                 // Delete row
                 deletedRowsCount++;
-                boardEventChannel.RaiseRowDeleted(deletedRowsCount);
+                rowDeleted.sentInt = 0;
+                rowDeleted.Raise();
 
                 for (int i = 0; i < BoardSize.x; i++)
                 {
@@ -253,12 +262,13 @@ public class BoardManager : MonoBehaviour
         rowsCompletedAtThisTickRate += deletedRowsCount;
         if (rowsCompletedAtThisTickRate >= 10)
         {
-            boardEventChannel.RaiseLevelUp(++level);
+            //boardEventChannel.RaiseLevelUp(++level);
+            levelUp.Raise();
             rowsCompletedAtThisTickRate -= 10;
         }
 
         // Resume ticking
-        tickEventChannel.RaiseTickUnpause();
+        tickUnpaused.Raise();
     }
 
     void SlideRowsDown(int aboveThisRow)

@@ -3,9 +3,14 @@ using UnityEngine;
 
 public class TickManager : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] TickEventChannel tickEventChannel = default;
-    [SerializeField] BoardEventChannel boardEventChannel = default;
+    [Header("Game Events")]
+    [SerializeField] GameEvent tick = default;
+    [SerializeField] GameEvent tickPaused = default;
+    [SerializeField] GameEvent tickUnpaused = default;
+    [SerializeField] GameEvent tickDelayed = default;
+    [SerializeField] GameEvent tickSetFast = default;
+    [SerializeField] GameEvent tickSetStandard = default;
+    [SerializeField] GameEvent levelUp = default;
 
     [Header("Parameters")]
     [SerializeField] float standardTickInterval = 0.35f;
@@ -21,13 +26,12 @@ public class TickManager : MonoBehaviour
 
     private void Awake()
     {
-        tickEventChannel.OnTickDelay += OnTickDelay;
-        tickEventChannel.OnTickPause += OnTickPause;
-        tickEventChannel.OnTickUnpause += OnTickUnpause;
-        tickEventChannel.OnSetFastTick += OnSetFastTick;
-        tickEventChannel.OnSetStandardTick += OnSetStandardTick;
-
-        boardEventChannel.OnLevelUp += IncreaseTickRate;
+        tickPaused.RegisterListener(OnTickDelay);
+        tickUnpaused.RegisterListener(OnTickUnpause);
+        tickPaused.RegisterListener(OnTickPause);
+        tickSetFast.RegisterListener(OnSetFastTick);
+        tickSetStandard.RegisterListener(OnSetStandardTick);
+        levelUp.RegisterListener(IncreaseTickRate);
 
         tickInterval = standardTickInterval;
         IsTicking = false;
@@ -49,7 +53,8 @@ public class TickManager : MonoBehaviour
         if (Time.time > lastTick + (tickInterval * tickIntervalMultiplier))
         {
             lastTick = Time.time;
-            tickEventChannel.RaiseTick();
+            tick.sentInt++;
+            tick.Raise();
         }
     }
 
@@ -62,7 +67,7 @@ public class TickManager : MonoBehaviour
         IsTicking = true;
     }
 
-    void IncreaseTickRate(int level)
+    void IncreaseTickRate()
     {
         tickIntervalMultiplier *= (1f - tickRateIncrease);
     }
@@ -77,8 +82,9 @@ public class TickManager : MonoBehaviour
         tickInterval = standardTickInterval;
     }
 
-    void OnTickDelay(float delay)
+    void OnTickDelay()
     {
+        float delay = tickDelayed.sentFloat;
         lastTick += delay;
     }
 }

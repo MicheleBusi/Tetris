@@ -3,22 +3,23 @@ using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] BoardEventChannel boardEventChannel = default;
-    [SerializeField] ScoreDisplay scoreDisplay = default;
+    [Header("Game Events")]
+    [SerializeField] GameEvent rowDeleted = default;
 
-    [Header("Parameters")]
+    [Header("")]
+    [SerializeField] ScoreDisplay scoreDisplay = default;
     [SerializeField] int deletedRowBaseValue = 100;
 
     public int Score { get; private set; }
 
     private void Awake()
     {
-        boardEventChannel.OnRowDeleted += OnRowDeleted;
+        rowDeleted.RegisterListener(OnRowDeleted);
     }
 
-    public void OnRowDeleted(int comboIndex)
+    public void OnRowDeleted()
     {
+        int comboIndex = rowDeleted.sentInt;
         int scoreIncrease = (int)Mathf.Pow(comboIndex, 2) * deletedRowBaseValue;
         Score += scoreIncrease;
         StartCoroutine(scoreDisplay.ScoreChangeAnimation(scoreIncrease));

@@ -9,6 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55369a584d22bfd4197727684f611133, type: 3}
-  m_Name: Board Event Channel
+  m_Script: {fileID: 11500000, guid: 4d595abdad710e4408c53f01886a1e52, type: 3}
+  m_Name: Piece Solidified
   m_EditorClassIdentifier: 
+  Description: 
+  sentInt: 0
+  sentFloat: 0
+  sentString: 
+  sentBool: 0

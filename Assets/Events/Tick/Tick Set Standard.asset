@@ -9,6 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ff1f0464a74984c9d5b76b02ffdcdc, type: 3}
-  m_Name: Game State Event Channel
+  m_Script: {fileID: 11500000, guid: 4d595abdad710e4408c53f01886a1e52, type: 3}
+  m_Name: Tick Set Standard
   m_EditorClassIdentifier: 
+  Description: 
+  sentInt: 0
+  sentFloat: 0
+  sentString: 
+  sentBool: 0

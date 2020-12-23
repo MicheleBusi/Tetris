@@ -2,8 +2,10 @@
 using UnityEngine.Events;
 public class GameStateManager : MonoBehaviour
 {
-    [Header("Configuration")]
-    [SerializeField] GameStateEventChannel gameStateEventChannel = default;
+    [Header("Events")]
+    [SerializeField] GameEvent GamePaused = default;
+    [SerializeField] GameEvent GameUnpaused = default;
+    [SerializeField] GameEvent GameLost = default;
 
     [SerializeField] UnityEvent pauseScreenTransitionIn = default;
     [SerializeField] UnityEvent pauseScreenTransitionOut = default;
@@ -14,9 +16,9 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        gameStateEventChannel.OnGamePause += OnGamePause;
-        gameStateEventChannel.OnGameUnpause += OnGameUnpause;
-        gameStateEventChannel.OnGameLost += OnGameLost;
+        GamePaused.RegisterListener(OnGamePause);
+        GameUnpaused.RegisterListener(OnGameUnpause);
+        GameLost.RegisterListener(OnGameLost);
     }
 
     private void Start()
