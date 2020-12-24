@@ -11,10 +11,6 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] BoolVariable isGamePaused = default;
 
-    [SerializeField] UnityEvent pauseScreenTransitionIn = default;
-    [SerializeField] UnityEvent pauseScreenTransitionOut = default;
-    [SerializeField] UnityEvent loseScreenTransitionIn = default;
-
     public bool IsLost { get; private set; } = false;
 
     private void Awake()
@@ -60,8 +56,6 @@ public class GameStateManager : MonoBehaviour
         isGamePaused.Value = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-
-        pauseScreenTransitionIn.Invoke();
     }
 
     void Unpause()
@@ -71,8 +65,6 @@ public class GameStateManager : MonoBehaviour
         isGamePaused.Value = false;
         Time.timeScale = 1;
         Cursor.visible = false;
-
-        pauseScreenTransitionOut.Invoke();
     }
 
     public void OnGameLost()
@@ -80,7 +72,5 @@ public class GameStateManager : MonoBehaviour
         IsLost = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-
-        loseScreenTransitionIn.Invoke();
     }
 }
