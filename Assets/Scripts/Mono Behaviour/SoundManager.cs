@@ -26,6 +26,16 @@ public class SoundManager : MonoBehaviour
         pieceMoved.RegisterListener(OnPieceMoved);
         pieceSolidified.RegisterListener(OnPieceSolidified);
         rowDeleted.RegisterListener(OnRowDeleted);
+
+    }
+    
+    private void OnDestroy()
+    {
+        levelUp.UnregisterListener(OnLevelUp);
+        pieceRotated.UnregisterListener(OnRotatePiece);
+        pieceMoved.UnregisterListener(OnPieceMoved);
+        pieceSolidified.UnregisterListener(OnPieceSolidified);
+        rowDeleted.UnregisterListener(OnRowDeleted);
     }
 
     private void OnLevelUp()

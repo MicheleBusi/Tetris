@@ -21,6 +21,11 @@ public class ScoreDisplay : MonoBehaviour
         scoreChanged.RegisterListener(OnScoreChanged);
     }
 
+    private void OnDestroy()
+    {
+        scoreChanged.UnregisterListener(OnScoreChanged);
+    }
+
     private void OnScoreChanged()
     {
         StartCoroutine(ScoreChangeAnimation());

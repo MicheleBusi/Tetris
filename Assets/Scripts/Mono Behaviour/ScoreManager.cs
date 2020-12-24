@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -16,6 +15,11 @@ public class ScoreManager : MonoBehaviour
     {
         rowDeleted.RegisterListener(OnRowDeleted);
         currentScore.Value = 0;
+    }
+
+    private void OnDestroy()
+    {
+        rowDeleted.UnregisterListener(OnRowDeleted);
     }
 
     public void OnRowDeleted()

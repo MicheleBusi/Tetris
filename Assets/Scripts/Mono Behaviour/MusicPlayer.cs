@@ -7,23 +7,25 @@ public class MusicPlayer : MonoBehaviour
 {
     [SerializeField] GameEvent musicPaused = default;
     [SerializeField] GameEvent musicUnpaused = default;
+    [SerializeField] BoolVariable musicToggle = default;
 
     AudioSource audioSource = null;
 
     private void Awake()
     {
-        // If a music player was already in the scene, destroy this.
-        if (FindObjectsOfType<MusicPlayer>().Length > 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
 
         musicPaused.RegisterListener(SoftPause);
         musicUnpaused.RegisterListener(SoftUnpause);
+    }
+
+    private void Start()
+    {
+        audioSource.Play();
+        if (!musicToggle.Value)
+        {
+            audioSource.Pause();
+        }
     }
 
     public void SoftPause()
@@ -35,6 +37,6 @@ public class MusicPlayer : MonoBehaviour
     public void SoftUnpause()
     {
         audioSource.UnPause();
-        audioSource.volumeTransition(0.45f, 0.5f);
+        audioSource.volumeTransition(1f, 0.5f);
     }
 }

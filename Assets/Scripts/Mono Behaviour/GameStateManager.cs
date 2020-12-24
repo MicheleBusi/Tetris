@@ -23,6 +23,12 @@ public class GameStateManager : MonoBehaviour
         GameLost.RegisterListener(OnGameLost);
     }
 
+    private void OnDestroy()
+    {
+        TogglePause.UnregisterListener(OnTogglePause);
+        GameLost.UnregisterListener(OnGameLost);
+    }
+
     private void OnTogglePause()
     {
         if (IsLost)

@@ -55,4 +55,10 @@ public class GameEvent : ScriptableObject
         if (eventListeners.Contains(listener))
             eventListeners.Remove(listener);
     }
+
+    public void UnregisterListener(UnityAction listener)
+    {
+        if (eventActions.Contains(listener))
+            eventActions.Remove(listener);
+    }
 }

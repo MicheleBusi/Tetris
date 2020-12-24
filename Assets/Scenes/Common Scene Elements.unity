@@ -336,6 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicPaused: {fileID: 11400000, guid: 181d4189358a0de47a05bd1cd8113515, type: 2}
   musicUnpaused: {fileID: 11400000, guid: b6a05f7aca24fff439349d682f1335c8, type: 2}
+  musicToggle: {fileID: 11400000, guid: 175796aac97e84a4999519497297dfa9, type: 2}
 --- !u!82 &632802602
 AudioSource:
   m_ObjectHideFlags: 0
@@ -348,7 +349,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 6058853507745067139, guid: ac9dff3112afce540af2381f00593cf2,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 78d8ce6f71e93814bbf4c7f139767396, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

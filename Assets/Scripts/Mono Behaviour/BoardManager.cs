@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Lean.Transition;
 
 public class BoardManager : MonoBehaviour
@@ -38,16 +37,23 @@ public class BoardManager : MonoBehaviour
         tick.RegisterListener(OnTick);
         pieceMoved.RegisterListener(OnPieceMove);
         pieceRotated.RegisterListener(OnPieceRotate);
+
+        ClearBoard();
+    }
+
+    private void OnDestroy()
+    {
+        tick.UnregisterListener(OnTick);
+        pieceMoved.UnregisterListener(OnPieceMove);
+        pieceRotated.UnregisterListener(OnPieceRotate);
     }
 
     private void Start()
     {
-        ClearBoard();
-
-        tickUnpaused.Raise();
-
         GenerateNextPiece();
         SpawnPiece();
+
+        tickUnpaused.Raise();
     }
 
     void ClearBoard()
@@ -63,7 +69,6 @@ public class BoardManager : MonoBehaviour
 
     void OnPieceRotate()
     {
-
         activePiece.Rotate(new Vector3(0, 0, 90));
         foreach (var t in activeTiles)
         {
@@ -173,8 +178,6 @@ public class BoardManager : MonoBehaviour
 
     void SolidifyActivePiece()
     {
-        pieceSolidified.Raise();
-
         foreach (var t in activeTiles)
         {
             t.transform.parent = null;
@@ -194,6 +197,8 @@ public class BoardManager : MonoBehaviour
 
         Destroy(activePiece.gameObject);
         activePiece = null;
+
+        pieceSolidified.Raise();
 
         StartCoroutine(CheckCompletedRows());
 
