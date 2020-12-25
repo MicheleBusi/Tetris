@@ -129,51 +129,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1636630905}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &228206939
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 228206941}
-  - component: {fileID: 228206940}
-  m_Layer: 0
-  m_Name: Saving System
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &228206940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 228206939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47049b2899595f346891f15e5325bb3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  savePath: {fileID: 11400000, guid: 68b01951c983e4b4e9f6995147e438f3, type: 2}
-  SaveGameCommand: {fileID: 0}
---- !u!4 &228206941
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 228206939}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &526023496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -503,7 +458,6 @@ GameObject:
   m_Component:
   - component: {fileID: 948926136}
   - component: {fileID: 948926135}
-  - component: {fileID: 948926137}
   m_Layer: 0
   m_Name: Scene Loader
   m_TagString: Untagged
@@ -538,33 +492,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &948926137
+--- !u!1 &1076743934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1076743936}
+  - component: {fileID: 1076743935}
+  m_Layer: 0
+  m_Name: PersistentStorage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1076743935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 948926134}
+  m_GameObject: {fileID: 1076743934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb52ad5f02f6f74d8e89a785e2257ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 195f34e34789afd4baa7eaa2d164f54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 0364a8dcde3f123418baa32f0e82b3fc, type: 2}
-        m_TargetAssemblyTypeName: SceneLoaderRequests, Assembly-CSharp
-        m_MethodName: LoadSceneAdditive
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Main Menu
-          m_BoolArgument: 0
-        m_CallState: 2
+  saveHighScores: {fileID: 11400000, guid: a0665637deab1f6438266230eb2e2f90, type: 2}
+  loadHighScores: {fileID: 11400000, guid: f1654e57d4e9ec545ab73f4db501f4a3, type: 2}
+  highScores: {fileID: 11400000, guid: 7625b9280c5f6e34f94603ec8c527c80, type: 2}
+--- !u!4 &1076743936
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076743934}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1636630905
 PrefabInstance:
   m_ObjectHideFlags: 0

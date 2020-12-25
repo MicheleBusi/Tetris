@@ -13,6 +13,14 @@ public class SceneLoader : MonoBehaviour
         loadRequests.loadSceneAdditive += OnLoadSceneAdditive;
     }
 
+    private void Start()
+    {
+        if (!SceneManager.GetSceneByName("Main Menu").isLoaded)
+        {
+            loadRequests.loadSceneAdditive("Main Menu");
+        }
+    }
+
     public void OnLoadSceneSingle(string sceneName)
     {
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);

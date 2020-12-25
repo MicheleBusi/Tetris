@@ -4,6 +4,7 @@ public class ScoreManager : MonoBehaviour
 {
     [Header("Game Events")]
     [SerializeField] GameEvent rowDeleted = default;
+    [SerializeField] GameEvent scoreChanged = default;
 
     [Header("")]
     [SerializeField] IntVariable currentScore = default;
@@ -28,6 +29,8 @@ public class ScoreManager : MonoBehaviour
         int scoreIncrease = (int)Mathf.Pow(comboIndex, 2) * deletedRowBaseValue;
         Score += scoreIncrease;
         currentScore.Value += scoreIncrease;
+        scoreChanged.sentInt = scoreIncrease;
+        scoreChanged.Raise();
         //StartCoroutine(scoreDisplay.ScoreChangeAnimation(scoreIncrease));
     }
 }

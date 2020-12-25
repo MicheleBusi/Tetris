@@ -35,7 +35,7 @@ public class SpawnScoreAdd : MonoBehaviour
         var animation = GO.GetComponent<LeanAnimation>();
         animation.BeginTransitions();
 
-        Destroy(GO, 1.5f);
+        Destroy(GO, 1.2f);
     }
 
     //void OnScoreChanged()

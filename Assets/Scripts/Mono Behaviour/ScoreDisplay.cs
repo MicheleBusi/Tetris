@@ -34,6 +34,7 @@ public class ScoreDisplay : MonoBehaviour
     // Slowly increase displayed score
     public IEnumerator ScoreChangeAnimation()
     {
+        yield return new WaitForSecondsRealtime(1.2f);
         OnScoreIncreaseAnimation.Invoke();
 
         if (isAnimatingScore)
@@ -50,7 +51,7 @@ public class ScoreDisplay : MonoBehaviour
                 Mathf.Lerp(currentlyDisplayedScore, currentScore.Value, ft));
         
             scoreText.text = displayScore.ToString();
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSecondsRealtime(0.03f);
         }
 
         scoreText.text = currentScore.Value.ToString();
