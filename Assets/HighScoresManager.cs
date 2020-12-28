@@ -39,7 +39,7 @@ public class HighScoresManager : MonoBehaviour
 
         if (currentScoreRank != -1)
         {
-            for (int i = currentScoreRank + 1; i < arrayLength; i++)
+            for (int i = arrayLength - 1; i > currentScoreRank; i--)
             {
                 highScores.scores[i] = highScores.scores[i - 1];
             }

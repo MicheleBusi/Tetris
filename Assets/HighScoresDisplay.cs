@@ -12,7 +12,7 @@ public class HighScoresDisplay : MonoBehaviour
         highScoreText = GetComponent<Text>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         loadHighScores.Raise();
         UpdateHighScoresText();

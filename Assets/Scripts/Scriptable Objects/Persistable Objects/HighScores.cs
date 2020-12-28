@@ -7,6 +7,14 @@ public class HighScores : ScriptableObject, IPersistableObject
 {
     public int[] scores = new int[5];
 
+    private void OnEnable()
+    {
+        for (int i = 0; i < scores.Length; i++)
+        {
+            scores[i] = 0;
+        }
+    }
+
     public void Load(GameDataReader reader)
     {
         for (int i = 0; i < scores.Length; i++)
